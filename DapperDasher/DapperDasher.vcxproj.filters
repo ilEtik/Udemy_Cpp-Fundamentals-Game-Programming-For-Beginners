@@ -15,11 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\DapperDasherMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ClassyClash\.clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\textures\12_nebula_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\textures\back-buildings.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\textures\far-buildings.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\textures\foreground.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\textures\scarfy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

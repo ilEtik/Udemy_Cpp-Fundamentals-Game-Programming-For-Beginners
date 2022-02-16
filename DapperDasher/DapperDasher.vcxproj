@@ -19,10 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\DapperDasherMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ClassyClash\.clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\textures\12_nebula_spritesheet.png" />
+    <Image Include="Assets\textures\back-buildings.png" />
+    <Image Include="Assets\textures\far-buildings.png" />
+    <Image Include="Assets\textures\foreground.png" />
+    <Image Include="Assets\textures\scarfy.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
