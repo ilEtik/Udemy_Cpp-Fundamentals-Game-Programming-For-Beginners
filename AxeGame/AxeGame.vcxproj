@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4211f816-f345-46a9-be5f-426da763b080}</ProjectGuid>
-    <RootNamespace>ClassyClash</RootNamespace>
+    <ProjectGuid>{f43c6ece-4292-44c9-a6b8-0254074f9310}</ProjectGuid>
+    <RootNamespace>AxeGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>03_ClassyClash</ProjectName>
+    <ProjectName>01_AxeGame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -143,17 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include=".clang-format" />
+    <ClCompile Include="src\cpp-raylib-template.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ClassyClashGame.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Game.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\WorldMap.png" />
+    <None Include="..\ClassyClash\.clang-format" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -37,6 +37,7 @@
     <ProjectGuid>{a7ddb872-66e1-407f-b277-57c7c857f32b}</ProjectGuid>
     <RootNamespace>DapperDasher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>02_DapperDasher</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

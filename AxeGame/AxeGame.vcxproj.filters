@@ -15,24 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".clang-format" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ClassyClashGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\cpp-raylib-template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\WorldMap.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <None Include="..\ClassyClash\.clang-format" />
   </ItemGroup>
 </Project>

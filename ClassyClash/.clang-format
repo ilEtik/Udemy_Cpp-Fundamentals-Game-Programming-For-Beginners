@@ -1,6 +1,6 @@
 ---
 BasedOnStyle: Microsoft
-AccessModifierOffset: '0'
+AccessModifierOffset: '-3'
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: 'false'
 AlignConsecutiveDeclarations: 'false'
