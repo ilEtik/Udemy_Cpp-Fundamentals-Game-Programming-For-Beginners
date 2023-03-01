@@ -1,6 +1,8 @@
 #include "Character.h"
 #include "raymath.h"
 
+#include <cstdio>
+
 namespace ClassyClash
 {
 	Character::Character(const Vector2* windowDimensions)
@@ -15,6 +17,7 @@ namespace ClassyClash
 			windowDimensions->x / 2.f - 8.f * (0.5f * _characterWidth),
 			windowDimensions->y / 2.f - 8.f * (0.5f * _characterHeight)
 		};
+		_worldPosition = _screenPosition;
 		_playerSourceRect =
 		{
 			0.f,
@@ -31,7 +34,7 @@ namespace ClassyClash
 		};
 	}
 
-	void Character::Tick(float deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
+	void Character::Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
 	{
 		_previousWorldPosition = _worldPosition;
 
@@ -61,17 +64,12 @@ namespace ClassyClash
 			_playerSourceRect.width = (direction.x < 0.f ? -1.f : 1.f) * _characterWidth;
 		}
 
-		// Update Animation Frame
-		_currentFrameTimer += deltaTime;
-		if (_currentFrameTimer >= _maxFrameTimer)
-		{
-			_currentFrameTimer = 0.0f;
-			_playerSourceRect.x = _currentAnimationFrame * _playerSourceRect.width;
-			_currentAnimationFrame = (_currentAnimationFrame + 1) % _maxAnimationFrames;
-		}
+		Animate(deltaTime);
 
 		DrawTexturePro((Vector2Length(direction) != 0.f ? _playerRunTexture : _playerTexture), _playerSourceRect, _PlayerTargetRect, {0.f, 0.f}, 0.f, WHITE);
 
+
+		//std::printf("Player Position: (%f, %f) \n", _worldPosition.x, _worldPosition.x);
 		if (!IsInBounds(mapBounds, windowDimensions))
 		{
 			UndoMovement();
@@ -89,11 +87,23 @@ namespace ClassyClash
 		_worldPosition = _previousWorldPosition;
 	}
 
+	void Character::Animate(const float* deltaTime)
+	{
+		// Update Animation Frame
+		_currentFrameTimer += *deltaTime;
+		if (_currentFrameTimer >= _maxFrameTimer)
+		{
+			_currentFrameTimer = 0.0f;
+			_playerSourceRect.x = _currentAnimationFrame * _playerSourceRect.width;
+			_currentAnimationFrame = (_currentAnimationFrame + 1) % _maxAnimationFrames;
+		}
+	}
+
 	bool Character::IsInBounds(const Rectangle* bounds, const Vector2* windowDimensions) const
 	{
 		return _worldPosition.x > bounds->x &&
-			_worldPosition.y > bounds->y &&
 			_worldPosition.x + windowDimensions->x < bounds->width &&
+			_worldPosition.y > bounds->y &&
 			_worldPosition.y + windowDimensions->y < bounds->height;
 	}
 }

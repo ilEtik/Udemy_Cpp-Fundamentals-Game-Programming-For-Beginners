@@ -8,19 +8,18 @@ namespace ClassyClash
 	{
 	public:
 		Character(const Vector2* windowDimensions);
-		void Tick(float deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions);
+		void Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions);
 		~Character();
 		const Vector2* GetWorldPosition() 
 		{
 			return &_worldPosition;
 		}
-		void UndoMovement();
 
 	private:
 		Vector2 _screenPosition{};
 		Vector2 _worldPosition{};
 		Vector2 _previousWorldPosition{};
-		const float _movementSpeed{10.f};
+		const float _movementSpeed{8.f};
 		
 		float _characterWidth{};
 		float _characterHeight{};
@@ -42,6 +41,8 @@ namespace ClassyClash
 		const int _maxAnimationFrames{6};
 
 	private:
+		void UndoMovement();
+		void Animate(const float* deltaTime);
 		bool IsInBounds(const Rectangle* bounds, const Vector2* windowDimensions) const;
 	};
 }

@@ -27,9 +27,11 @@ namespace ClassyClash
 			BeginDrawing();
 			ClearBackground(WHITE);
 
+			const float frameTime = GetFrameTime();
+
 			DrawMap(knight.GetWorldPosition());
 
-			knight.Tick(GetFrameTime(), &_mapBounds, &WindowDimensions);
+			knight.Tick(&frameTime, &_mapBounds, &WindowDimensions);
 
 			EndDrawing();
 		}

@@ -75,15 +75,15 @@ namespace Dasher
 
 		int nextXOffset{0};
 		int lastXOffset{0};
-		for (int i = 0; i < NebulaAmount; i++)
+		for (EntityData & i : NebulaArray)
 		{
-			NebulaArray[i].Rect = {0, 0, NebulaTexture.width / 8.0f, NebulaTexture.height / 8.0f};
-			NebulaArray[i].AnimationFrame = 0;
-			NebulaArray[i].AnimationUpdateTime = 1.0f / 32.0f;
-			NebulaArray[i].AnimationRunningTime = 0.0f;
+			i.Rect = {0, 0, NebulaTexture.width / 8.0f, NebulaTexture.height / 8.0f};
+			i.AnimationFrame = 0;
+			i.AnimationUpdateTime = 1.0f / 32.0f;
+			i.AnimationRunningTime = 0.0f;
 
-			NebulaArray[i].Position.x = WindowDimensions.x + lastXOffset + nextXOffset;
-			NebulaArray[i].Position.y = WindowDimensions.y - NebulaArray[i].Rect.height - GroundHeight;
+			i.Position.x = WindowDimensions.x + lastXOffset + nextXOffset;
+			i.Position.y = WindowDimensions.y - i.Rect.height - GroundHeight;
 			nextXOffset = GetRandomValue(NebulaXOffsetMin, NebulaXOffsetMax);
 			lastXOffset += nextXOffset;
 		}
@@ -209,7 +209,7 @@ namespace Dasher
 			return;
 		}
 
-		for (const EntityData nebula : NebulaArray)
+		for (const EntityData & nebula : NebulaArray)
 		{
 			if (!IsVisibleInWindowHorizontal(&nebula, NebulaTexture.width))
 			{
@@ -256,9 +256,9 @@ namespace Dasher
 	{
 		UpdateBackground(deltaTime);
 
-		for (int i = 0; i < NebulaAmount; i++)
+		for (EntityData & i : NebulaArray)
 		{
-			UpdateNebula(deltaTime, NebulaArray[i]);
+			UpdateNebula(deltaTime, i);
 		}
 
 		UpdatePlayer(deltaTime);
