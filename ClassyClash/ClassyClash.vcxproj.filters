@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".clang-format" />
+    <None Include="clang-format.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ClassyClashGame.cpp">
@@ -24,14 +24,44 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h">
+    <ClInclude Include="src\ClassyClashGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\WorldMap.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\goblin_idle_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\goblin_run_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\knight_idle_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\knight_run_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\slime_idle_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\slime_run_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\weapon_sword.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\characters\weapon_sword_1.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

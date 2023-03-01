@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Game.h"
+#include "ClassyClashGame.h"
+#include "Character.h"
 #include "raymath.h"
 
 #include <iostream>
@@ -14,40 +15,21 @@ namespace ClassyClash
 
 		//Load Assets
 		_mapTexture = LoadTexture("Assets/WorldMap.png");
+		_mapBounds = {0, 0, _mapTexture.width * _mapScale, _mapTexture.height * _mapScale};
 	}
 
 	int Game::Run()
 	{
+		Character knight(&WindowDimensions);
+
 		while (!WindowShouldClose())
 		{
 			BeginDrawing();
 			ClearBackground(WHITE);
 
-			Vector2 direction {0, 0};
-			if (IsKeyDown(KEY_A))
-			{
-				direction.x -= 1.0f;
-			}
-			if (IsKeyDown(KEY_D))
-			{
-				direction.x += 1.0f;
-			}
-			if (IsKeyDown(KEY_W))
-			{
-				direction.y -= 1.0f;
-			}
-			if (IsKeyDown(KEY_S))
-			{
-				direction.y += 1.0f;
-			}
+			DrawMap(knight.GetWorldPosition());
 
-			if (Vector2Length(direction) != 0.0f)
-			{
-				Vector2 normalizedPos = Vector2Scale(Vector2Normalize(direction), _speed);
-				_mapPosition = Vector2Subtract(_mapPosition, normalizedPos);
-			}
-
-			DrawTextureEx(_mapTexture, _mapPosition, 0.0, 4.0, WHITE);
+			knight.Tick(GetFrameTime(), &_mapBounds, &WindowDimensions);
 
 			EndDrawing();
 		}
@@ -57,6 +39,13 @@ namespace ClassyClash
 
 	Game::~Game()
 	{
+		UnloadTexture(_mapTexture);
 		CloseWindow();
+	}
+
+	void Game::DrawMap(const Vector2* knightWorldPosition)
+	{
+		_mapPosition = Vector2Scale({knightWorldPosition->x, knightWorldPosition->y}, -1.f);
+		DrawTextureEx(_mapTexture, _mapPosition, 0.f, _mapScale, WHITE);
 	}
 }

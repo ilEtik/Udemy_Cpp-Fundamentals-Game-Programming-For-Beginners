@@ -143,16 +143,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include=".clang-format" />
+    <None Include="clang-format.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Character.cpp" />
     <ClCompile Include="src\ClassyClashGame.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="src\ClassyClashGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\characters\goblin_idle_spritesheet.png" />
+    <Image Include="Assets\characters\goblin_run_spritesheet.png" />
+    <Image Include="Assets\characters\knight_idle_spritesheet.png" />
+    <Image Include="Assets\characters\knight_run_spritesheet.png" />
+    <Image Include="Assets\characters\slime_idle_spritesheet.png" />
+    <Image Include="Assets\characters\slime_run_spritesheet.png" />
+    <Image Include="Assets\characters\weapon_sword.png" />
+    <Image Include="Assets\characters\weapon_sword_1.png" />
     <Image Include="Assets\WorldMap.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
