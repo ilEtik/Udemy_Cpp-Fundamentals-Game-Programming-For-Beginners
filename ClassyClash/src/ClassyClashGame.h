@@ -4,14 +4,13 @@
 
 namespace ClassyClash
 {
-
 	class Game
 	{
 
 	public:
 		const char* Title{"Classy Clash"};
 		const int TargetFps{60};
-		const Vector2 WindowDimensions{800, 800};
+		const Vector2 WindowDimensions{1920, 1080};
 
 	public:
 		Game();
@@ -25,6 +24,6 @@ namespace ClassyClash
 		Rectangle _mapBounds;
 
 	private:
-		void DrawMap(const Vector2* knightWorldPosition);
+		void DrawMap(const Vector2 knightWorldPosition);
 	};
 }

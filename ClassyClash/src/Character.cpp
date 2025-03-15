@@ -5,86 +5,44 @@
 
 namespace ClassyClash
 {
-	Character::Character(const Vector2* windowDimensions)
-	{
-		_playerTexture = LoadTexture("Assets/characters/knight_idle_spritesheet.png");
-		_playerRunTexture = LoadTexture("Assets/characters/knight_run_spritesheet.png");
-		_characterWidth = (float)_playerTexture.width / _maxAnimationFrames;
-		_characterHeight = _playerTexture.height;
-
-		_screenPosition =
-		{
-			windowDimensions->x / 2.f - 8.f * (0.5f * _characterWidth),
-			windowDimensions->y / 2.f - 8.f * (0.5f * _characterHeight)
-		};
-		_worldPosition = _screenPosition;
-		_playerSourceRect =
-		{
-			0.f,
-			0.f,
-			_characterWidth,
-			_characterHeight
-		};
-		_PlayerTargetRect =
-		{
-			_screenPosition.x,
-			_screenPosition.y,
-			8.f * _characterWidth,
-			8.f * _characterHeight
-		};
-	}
-
 	void Character::Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
 	{
 		_previousWorldPosition = _worldPosition;
 
-		Vector2 direction{0, 0};
-		if (IsKeyDown(KEY_A))
-		{
-			direction.x -= 1.f;
-		}
-		if (IsKeyDown(KEY_D))
-		{
-			direction.x += 1.f;
-		}
-		if (IsKeyDown(KEY_W))
-		{
-			direction.y -= 1.f;
-		}
-		if (IsKeyDown(KEY_S))
-		{
-			direction.y += 1.f;
-		}
+		Animate(deltaTime);
 
-		if (Vector2Length(direction) != 0.f)
+		Vector2 direction = GetDirection();
+
+		bool isMoving = Vector2Length(direction) != 0.f;
+
+		if (isMoving)
 		{
 			Vector2 normalizedDirection = Vector2Scale(Vector2Normalize(direction), _movementSpeed);
 			_worldPosition = Vector2Add(_worldPosition, normalizedDirection);
+			_playerSourceRect.width = (normalizedDirection.x < 0.f ? -1.f : 1.f) * _characterWidth;
 
-			_playerSourceRect.width = (direction.x < 0.f ? -1.f : 1.f) * _characterWidth;
+			if (log)
+				std::printf("worldPosition: (%f, %f) \n", _worldPosition.x, _worldPosition.y);
 		}
 
-		Animate(deltaTime);
+		Vector2 screenPosition = GetScreenPosition();
 
-		DrawTexturePro((Vector2Length(direction) != 0.f ? _playerRunTexture : _playerTexture), _playerSourceRect, _PlayerTargetRect, {0.f, 0.f}, 0.f, WHITE);
+		//if (log)
+		//	std::printf("screenPosition: (%f, %f) \n", screenPosition.x, screenPosition.y);
 
-
-		//std::printf("Player Position: (%f, %f) \n", _worldPosition.x, _worldPosition.x);
-		if (!IsInBounds(mapBounds, windowDimensions))
-		{
-			UndoMovement();
-		}
-	}
-
-	Character::~Character()
-	{
-		UnloadTexture(_playerTexture);
-		UnloadTexture(_playerRunTexture);
+		_playerTargetRect.x = screenPosition.x;
+		_playerTargetRect.y = screenPosition.y;
+		DrawTexturePro(isMoving ? _runTexture : _idleTexture, _playerSourceRect, _playerTargetRect, {0.f, 0.f}, 0.f, WHITE);
 	}
 
 	void Character::UndoMovement()
 	{
 		_worldPosition = _previousWorldPosition;
+	}
+
+	const Rectangle Character::GetCollisionRec()
+	{
+		return _playerTargetRect;
 	}
 
 	void Character::Animate(const float* deltaTime)
@@ -94,16 +52,8 @@ namespace ClassyClash
 		if (_currentFrameTimer >= _maxFrameTimer)
 		{
 			_currentFrameTimer = 0.0f;
-			_playerSourceRect.x = _currentAnimationFrame * _playerSourceRect.width;
+			_playerSourceRect.x = _currentAnimationFrame * _characterWidth;
 			_currentAnimationFrame = (_currentAnimationFrame + 1) % _maxAnimationFrames;
 		}
-	}
-
-	bool Character::IsInBounds(const Rectangle* bounds, const Vector2* windowDimensions) const
-	{
-		return _worldPosition.x > bounds->x &&
-			_worldPosition.x + windowDimensions->x < bounds->width &&
-			_worldPosition.y > bounds->y &&
-			_worldPosition.y + windowDimensions->y < bounds->height;
 	}
 }

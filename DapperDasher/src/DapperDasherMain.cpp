@@ -87,6 +87,8 @@ namespace Dasher
 			nextXOffset = GetRandomValue(NebulaXOffsetMin, NebulaXOffsetMax);
 			lastXOffset += nextXOffset;
 		}
+
+
 	}
 
 	void InitializeGame()
@@ -157,6 +159,8 @@ namespace Dasher
 			data->Rect.x = data->AnimationFrame * data->Rect.width;
 			data->AnimationFrame = (data->AnimationFrame + 1) % maxFrame;
 		}
+
+		delete data;
 	}
 
 	void UpdatePlayer(const float deltaTime)

@@ -55,6 +55,28 @@ void MoveCircle()
 
 void MoveAxe()
 {
+	bool falsee = false;
+	bool truee = true;
+
+	if (truee)
+	{
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	axeY += axeDirection;
 	if (axeY > (WindowHeight - axeHeight) || axeY < 0)
 	{
