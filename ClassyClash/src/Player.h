@@ -15,6 +15,6 @@ namespace ClassyClash
 		bool IsInBounds(const Rectangle* bounds, const Vector2* windowDimensions) const;
 
 	protected:
-		const Vector2 GetDirection() override;
+		const Vector2 GetVelocity() override;
 	};
 }

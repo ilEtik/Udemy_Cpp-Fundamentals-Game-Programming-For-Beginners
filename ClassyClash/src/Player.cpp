@@ -12,8 +12,8 @@ namespace ClassyClash
 
 		_screenPosition =
 		{
-			windowDimensions->x / 2.f - _scale * (0.5f * _characterWidth),
-			windowDimensions->y / 2.f - _scale * (0.5f * _characterHeight)
+			(windowDimensions->x * 0.5f) - _scale * (0.5f * _characterWidth),
+			(windowDimensions->y * 0.5f) - _scale * (0.5f * _characterHeight)
 		};
 		_worldPosition = _screenPosition;
 		_playerSourceRect =
@@ -49,9 +49,9 @@ namespace ClassyClash
 		UnloadTexture(_runTexture);
 	}
 
-	const Vector2 Player::GetDirection()
+	const Vector2 Player::GetVelocity()
 	{
-		Vector2 direction{0, 0};
+		Vector2 direction{};
 		if (IsKeyDown(KEY_A))
 		{
 			direction.x -= 1.f;

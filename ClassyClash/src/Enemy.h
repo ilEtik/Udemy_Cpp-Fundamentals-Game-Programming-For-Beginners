@@ -15,10 +15,10 @@ namespace ClassyClash
 
 		void SetTarget(Player* target);
 
-		const Vector2 GetScreenPosition() override;
+		const Vector2 GetScreenPosition() const override;
 
 	protected:
-		const Vector2 GetDirection() override;
+		const Vector2 GetVelocity() override;
 
 	private:
 		Player* _target;

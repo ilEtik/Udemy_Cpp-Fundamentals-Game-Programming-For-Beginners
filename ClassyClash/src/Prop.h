@@ -8,15 +8,16 @@ namespace ClassyClash
 	{
 	public:
 		Prop(const Vector2 worldPosition, const char* textureName);
+		~Prop();
 
 		void Render(const Vector2 playerPosition);
 
-		const Rectangle GetCollisionRec(const Vector2 playerPosition);
+		const Rectangle GetCollisionRec(const Vector2 playerPosition) const;
 
 	private:
-		const Texture2D _texture;
+		Texture2D _texture;
 
-		const Vector2 _worldPosition{};
+		Vector2 _worldPosition{};
 		Vector2 _screenPosition{};
 
 		const float _scale{8.0f};

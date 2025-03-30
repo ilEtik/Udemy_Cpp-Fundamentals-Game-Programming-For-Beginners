@@ -10,15 +10,16 @@ namespace ClassyClash
 		virtual void Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions);
 		void UndoMovement();
 
-		const Vector2 GetWorldPosition()
+		const Vector2 GetWorldPosition() const
 		{
 			return _worldPosition;
 		}
-		virtual const Vector2 GetScreenPosition()
+		virtual const Vector2 GetScreenPosition() const
 		{
 			return _screenPosition;
 		}
-		const Rectangle GetCollisionRec();
+		const Rectangle GetCollisionRec() const;
+		const bool IsMoving() const;
 
 	protected:
 		Vector2 _screenPosition{};
@@ -50,7 +51,10 @@ namespace ClassyClash
 		bool log = false;
 
 	protected:
-		virtual const Vector2 GetDirection() = 0;
+		virtual const Vector2 GetVelocity() = 0;
 		void Animate(const float* deltaTime);
+
+	private:
+		Vector2 _velocity{};
 	};
 }

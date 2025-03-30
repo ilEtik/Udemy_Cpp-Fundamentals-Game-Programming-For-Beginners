@@ -1,11 +1,19 @@
 #include "Prop.h"
 #include "raymath.h"
 
+#include <iostream>
+
 namespace ClassyClash
 {
 	Prop::Prop(const Vector2 position, const char* textureName)
-		: _texture(LoadTexture(textureName)), _worldPosition(position)
+		: _texture(LoadTexture(textureName)), 
+			_worldPosition(position)
 	{
+	}
+
+	Prop::~Prop()
+	{
+		UnloadTexture(_texture);
 	}
 
 	void Prop::Render(const Vector2 playerPosition)
@@ -14,14 +22,14 @@ namespace ClassyClash
 		DrawTextureEx(_texture, _screenPosition, 0.f, _scale, WHITE);
 	}
 
-	const Rectangle Prop::GetCollisionRec(const Vector2 playerPosition)
+	const Rectangle Prop::GetCollisionRec(const Vector2 playerPosition) const
 	{
-		_screenPosition = Vector2Subtract(_worldPosition, playerPosition);
+		Vector2 screenPosition = Vector2Subtract(_worldPosition, playerPosition);
 
 		return Rectangle
 		{
-			_screenPosition.x,
-			_screenPosition.y,
+			screenPosition.x,
+			screenPosition.y,
 			_texture.width * _scale,
 			_texture.height * _scale
 		};

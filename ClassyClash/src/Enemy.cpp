@@ -5,7 +5,7 @@
 
 namespace ClassyClash
 {
-	Enemy::Enemy(Vector2 position, const char* idleTextureName, const char* runTextureName) 
+	Enemy::Enemy(Vector2 position, const char* idleTextureName, const char* runTextureName)
 	{
 		_worldPosition = position;
 		_idleTexture = LoadTexture(idleTextureName);
@@ -30,15 +30,18 @@ namespace ClassyClash
 			_characterHeight * _scale
 		};
 
-		_movementSpeed = 60.0f;
+		_movementSpeed = 6.0f;
 
 		log = true;
 	}
 
-
-
 	void Enemy::Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
 	{
+		if (_target == nullptr)
+		{
+			return;
+		}
+
 		_screenPosition = GetScreenPosition();
 
 		Character::Tick(deltaTime, mapBounds, windowDimensions);
@@ -55,12 +58,17 @@ namespace ClassyClash
 		_target = target;
 	}
 
-	const Vector2 Enemy::GetScreenPosition()
+	const Vector2 Enemy::GetScreenPosition() const
 	{
+		if (_target == nullptr)
+		{
+			return _worldPosition;
+		}
+
 		return Vector2Subtract(_worldPosition, _target->GetWorldPosition());
 	}
 
-	const Vector2 Enemy::GetDirection()
+	const Vector2 Enemy::GetVelocity()
 	{
 		Vector2 direction = Vector2Subtract(_target->GetScreenPosition(), GetScreenPosition());
 		return direction;

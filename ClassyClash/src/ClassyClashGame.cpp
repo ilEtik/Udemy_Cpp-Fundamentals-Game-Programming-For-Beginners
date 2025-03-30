@@ -2,12 +2,7 @@
 #include "Player.h"
 #include "Prop.h"
 #include "Enemy.h"
-
 #include "raymath.h"
-
-#include <iostream>
-
-#define DEBUG true
 
 namespace ClassyClash
 {
@@ -39,14 +34,14 @@ namespace ClassyClash
 	{
 		Player player(&WindowDimensions);
 
-		Prop props[2]
+		std::array<Prop, 2> props
 		{
-			Prop(Vector2{ 1000, 1000 }, "Assets/nature_tileset/Bush.png"),
-			Prop(Vector2{ 1550, 750 }, "Assets/nature_tileset/Rock.png")
+			Prop(Vector2{1550, 750}, "Assets/nature_tileset/Rock.png"),
+			Prop(Vector2{1000, 1000}, "Assets/nature_tileset/Bush.png")
 		};
 
-		Enemy goblin(Vector2{1000, 750}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png");
-		goblin.SetTarget(&player);
+		//Enemy goblin(Vector2{1000, 750}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png");
+		//goblin.SetTarget(&player);
 
 		while (!WindowShouldClose())
 		{
@@ -59,36 +54,21 @@ namespace ClassyClash
 
 			DrawMap(playerPosition);
 
-			for (Prop prop : props)
+			for (Prop& prop : props)
 			{
 				prop.Render(playerPosition);
 			}
 
 			player.Tick(&frameTime, &_mapBounds, &WindowDimensions);
-			const Rectangle playerCollider = player.GetCollisionRec();
-#if DEBUG
-			DrawRectangleLinesEx(playerCollider, 3, BLUE);
-#endif
 
-			goblin.Tick(&frameTime, &_mapBounds, &WindowDimensions);
-			const Rectangle enemyCollider = goblin.GetCollisionRec();
-#if DEBUG
-			DrawRectangleLinesEx(enemyCollider, 3, RED);
-#endif
-
-			for (Prop prop : props)
+			if (CheckPlayerCollisions(player, props))
 			{
-				const Rectangle propCollider = prop.GetCollisionRec(playerPosition);
-#if DEBUG
-				DrawRectangleLinesEx(propCollider, 3, PINK);
-#endif
-
-				if (CheckCollisionRecs(playerCollider, propCollider))
-				{
-					player.UndoMovement();
-					break;
-				}
+				player.UndoMovement();
 			}
+
+			//goblin.Tick(&frameTime, &_mapBounds, &WindowDimensions);
+			//const Rectangle enemyCollider = goblin.GetCollisionRec();
+			//DEBUG_COLLIDER(enemyCollider, RED);
 
 			EndDrawing();
 		}
@@ -105,7 +85,35 @@ namespace ClassyClash
 
 	void Game::DrawMap(const Vector2 knightWorldPosition)
 	{
-		_mapPosition = Vector2Scale({knightWorldPosition.x, knightWorldPosition.y}, -1.f);
+		_mapPosition = Vector2Scale(knightWorldPosition, -1.f);
 		DrawTextureEx(_mapTexture, _mapPosition, 0.f, _mapScale, WHITE);
+	}
+
+	template <std::size_t N>
+	bool Game::CheckPlayerCollisions(const Player& player, const std::array<Prop, N>& props)
+	{
+		const Rectangle playerCollider = player.GetCollisionRec();
+		const Vector2 playerPosition = player.GetWorldPosition();
+
+		std::printf("Previous Player Position: (%f, %f) \n", playerPosition.x, playerPosition.y);
+		
+		DEBUG_COLLIDER(playerCollider, BLUE);
+
+		for (const Prop& prop : props)
+		{
+			const Rectangle propCollider = prop.GetCollisionRec(playerPosition);
+
+			DEBUG_COLLIDER(propCollider, PINK);
+
+			if (CheckCollisionRecs(playerCollider, propCollider))
+			{
+				std::printf("Player Collider Position: (%f, %f) \n", playerCollider.x, playerCollider.y);
+				std::printf("Prop Collider: (%f, %f, %f, %f) \n", propCollider.x, propCollider.y, propCollider.width, propCollider.height);
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
