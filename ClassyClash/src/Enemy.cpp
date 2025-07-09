@@ -31,13 +31,11 @@ namespace ClassyClash
 		};
 
 		_movementSpeed = 6.0f;
-
-		log = true;
 	}
 
-	void Enemy::Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
+	void Enemy::Tick(const float deltaTime, const Rectangle& mapBounds, const Vector2& windowDimensions)
 	{
-		if (_target == nullptr)
+		if (!_isAlive || _target == nullptr)
 		{
 			return;
 		}
@@ -45,6 +43,11 @@ namespace ClassyClash
 		_screenPosition = GetScreenPosition();
 
 		Character::Tick(deltaTime, mapBounds, windowDimensions);
+
+		if (CheckCollisionRecs(GetCollisionRec(), _target->GetCollisionRec()))
+		{
+			_target->TakeDamage(_damagePerSecond * deltaTime);
+		}
 	}
 
 	Enemy::~Enemy()
@@ -70,7 +73,17 @@ namespace ClassyClash
 
 	const Vector2 Enemy::GetVelocity()
 	{
+		if (!_target->IsAlive())
+		{
+			return {0.f, 0.f};
+		}
 		Vector2 direction = Vector2Subtract(_target->GetScreenPosition(), GetScreenPosition());
+
+		if (Vector2Length(direction) < _radius)
+		{
+			return {};
+		}
+
 		return direction;
 	}
 }

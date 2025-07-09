@@ -10,7 +10,7 @@ namespace ClassyClash
 	{
 	public:
 		Enemy(Vector2 position, const char* idleTextureName, const char* runTextureName);
-		void Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions) override;
+		void Tick(const float deltaTime, const Rectangle& mapBounds, const Vector2& windowDimensions) override;
 		~Enemy();
 
 		void SetTarget(Player* target);
@@ -22,5 +22,7 @@ namespace ClassyClash
 
 	private:
 		Player* _target;
+		float _damagePerSecond{10.f};
+		float _radius{50.f};
 	};
 }

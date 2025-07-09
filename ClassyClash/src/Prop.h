@@ -7,12 +7,12 @@ namespace ClassyClash
 	class Prop
 	{
 	public:
-		Prop(const Vector2 worldPosition, const char* textureName);
+		Prop(const Vector2& worldPosition, const char* textureName);
 		~Prop();
 
-		void Render(const Vector2 playerPosition);
+		void Render(const Vector2& playerPosition);
 
-		const Rectangle GetCollisionRec(const Vector2 playerPosition) const;
+		const Rectangle GetCollisionRec(const Vector2& playerPosition) const;
 
 	private:
 		Texture2D _texture;

@@ -4,6 +4,8 @@
 #include "Enemy.h"
 #include "raymath.h"
 
+#include <string>
+
 namespace ClassyClash
 {
 	Game::Game()
@@ -32,7 +34,7 @@ namespace ClassyClash
 
 	int Game::Run()
 	{
-		Player player(&WindowDimensions);
+		Player player(WindowDimensions);
 
 		std::array<Prop, 2> props
 		{
@@ -40,8 +42,20 @@ namespace ClassyClash
 			Prop(Vector2{1000, 1000}, "Assets/nature_tileset/Bush.png")
 		};
 
-		//Enemy goblin(Vector2{1000, 750}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png");
-		//goblin.SetTarget(&player);
+		std::array<Enemy, 6> enemies
+		{
+			Enemy(Vector2{1000, 750}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png"),
+			Enemy(Vector2{381, 661}, "Assets/characters/slime_idle_spritesheet.png", "Assets/characters/slime_run_spritesheet.png"),
+			Enemy(Vector2{837, 1970}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png"),
+			Enemy(Vector2{1286, 1372}, "Assets/characters/slime_idle_spritesheet.png", "Assets/characters/slime_run_spritesheet.png"),
+			Enemy(Vector2{1830, 100}, "Assets/characters/slime_idle_spritesheet.png", "Assets/characters/slime_run_spritesheet.png"),
+			Enemy(Vector2{2940, 1673}, "Assets/characters/goblin_idle_spritesheet.png", "Assets/characters/goblin_run_spritesheet.png")
+		};
+
+		for (Enemy& enemy : enemies)
+		{
+			enemy.SetTarget(&player);
+		}
 
 		while (!WindowShouldClose())
 		{
@@ -59,16 +73,45 @@ namespace ClassyClash
 				prop.Render(playerPosition);
 			}
 
-			player.Tick(&frameTime, &_mapBounds, &WindowDimensions);
+			if (!player.IsAlive())
+			{
+				DrawText("Game Over!", 55.f, 45.f, 40, RED);
+				EndDrawing();
+				continue;
+			}
+
+			std::string playerHealth = "Health: ";
+			playerHealth.append(std::to_string(player.GetHealth()), 0, 5);
+			DrawText(playerHealth.c_str(), 55.f, 45.f, 40, RED);
+
+			player.Tick(frameTime, _mapBounds, WindowDimensions);
 
 			if (CheckPlayerCollisions(player, props))
 			{
 				player.UndoMovement();
 			}
 
-			//goblin.Tick(&frameTime, &_mapBounds, &WindowDimensions);
-			//const Rectangle enemyCollider = goblin.GetCollisionRec();
-			//DEBUG_COLLIDER(enemyCollider, RED);
+			for (Enemy& enemy : enemies)
+			{
+				enemy.Tick(frameTime, _mapBounds, WindowDimensions);
+				const Rectangle enemyCollider = enemy.GetCollisionRec();
+				DEBUG_COLLIDER(enemyCollider, RED);
+			}
+
+			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+			{
+				const Rectangle& weaponCollision = player.GetWeaponCollisionRec();
+
+				for (Enemy& enemy : enemies)
+				{
+					const Rectangle enemyCollider = enemy.GetCollisionRec();
+
+					if (CheckCollisionRecs(weaponCollision, enemyCollider))
+					{
+						enemy.SetAlive(false);
+					}
+				}
+			}
 
 			EndDrawing();
 		}
@@ -83,7 +126,7 @@ namespace ClassyClash
 		CloseWindow();
 	}
 
-	void Game::DrawMap(const Vector2 knightWorldPosition)
+	void Game::DrawMap(const Vector2& knightWorldPosition)
 	{
 		_mapPosition = Vector2Scale(knightWorldPosition, -1.f);
 		DrawTextureEx(_mapTexture, _mapPosition, 0.f, _mapScale, WHITE);
@@ -96,7 +139,7 @@ namespace ClassyClash
 		const Vector2 playerPosition = player.GetWorldPosition();
 
 		std::printf("Previous Player Position: (%f, %f) \n", playerPosition.x, playerPosition.y);
-		
+
 		DEBUG_COLLIDER(playerCollider, BLUE);
 
 		for (const Prop& prop : props)

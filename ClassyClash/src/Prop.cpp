@@ -5,7 +5,7 @@
 
 namespace ClassyClash
 {
-	Prop::Prop(const Vector2 position, const char* textureName)
+	Prop::Prop(const Vector2& position, const char* textureName)
 		: _texture(LoadTexture(textureName)), 
 			_worldPosition(position)
 	{
@@ -16,13 +16,13 @@ namespace ClassyClash
 		UnloadTexture(_texture);
 	}
 
-	void Prop::Render(const Vector2 playerPosition)
+	void Prop::Render(const Vector2& playerPosition)
 	{
 		_screenPosition = Vector2Subtract(_worldPosition, playerPosition);
 		DrawTextureEx(_texture, _screenPosition, 0.f, _scale, WHITE);
 	}
 
-	const Rectangle Prop::GetCollisionRec(const Vector2 playerPosition) const
+	const Rectangle Prop::GetCollisionRec(const Vector2& playerPosition) const
 	{
 		Vector2 screenPosition = Vector2Subtract(_worldPosition, playerPosition);
 

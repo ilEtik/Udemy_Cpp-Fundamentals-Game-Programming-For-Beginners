@@ -14,7 +14,7 @@
 #endif
 
 #ifdef _DEBUG
-#define DEBUG_POSITION(position, color) DrawCircleV(position, 3, color)
+#define DEBUG_POSITION(position, color) DrawCircleV(position, 5, color)
 #else
 #define DEBUG_POSITION(position, color)
 #endif
@@ -41,7 +41,7 @@ namespace ClassyClash
 		Rectangle _mapBounds;
 
 	private:
-		void DrawMap(const Vector2 knightWorldPosition);
+		void DrawMap(const Vector2& knightWorldPosition);
 
 		template <std::size_t N>
 		bool CheckPlayerCollisions(const Player& player, const std::array<Prop, N>& props);

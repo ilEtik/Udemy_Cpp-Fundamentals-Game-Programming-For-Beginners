@@ -4,7 +4,7 @@
 
 namespace ClassyClash
 {
-	void Character::Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions)
+	void Character::Tick(const float deltaTime, const Rectangle& mapBounds, const Vector2& windowDimensions)
 	{
 		_velocity = GetVelocity();
 
@@ -18,7 +18,8 @@ namespace ClassyClash
 		{
 			Vector2 normalizedVelocity = Vector2Scale(Vector2Normalize(_velocity), _movementSpeed);
 			_worldPosition = Vector2Add(_worldPosition, normalizedVelocity);
-			_playerSourceRect.width = (normalizedVelocity.x < 0.f ? -1.f : 1.f) * _characterWidth;
+			_facingDirection = normalizedVelocity.x < 0.f ? -1.f : 1.f;
+			_playerSourceRect.width = _facingDirection * _characterWidth;
 
 			Vector2 screenPosition = GetScreenPosition();
 
@@ -46,9 +47,9 @@ namespace ClassyClash
 		return Vector2Length(_velocity) != 0.f;
 	}
 
-	void Character::Animate(const float* deltaTime)
+	void Character::Animate(const float deltaTime)
 	{
-		_currentFrameTimer += *deltaTime;
+		_currentFrameTimer += deltaTime;
 		if (_currentFrameTimer >= _maxFrameTimer)
 		{
 			_currentFrameTimer = 0.0f;

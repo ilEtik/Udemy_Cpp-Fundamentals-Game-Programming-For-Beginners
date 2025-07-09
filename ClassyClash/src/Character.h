@@ -7,19 +7,15 @@ namespace ClassyClash
 	class Character
 	{
 	public:
-		virtual void Tick(const float* deltaTime, const Rectangle* mapBounds, const Vector2* windowDimensions);
+		virtual void Tick(const float deltaTime, const Rectangle& mapBounds, const Vector2& windowDimensions);
 		void UndoMovement();
 
-		const Vector2 GetWorldPosition() const
-		{
-			return _worldPosition;
-		}
-		virtual const Vector2 GetScreenPosition() const
-		{
-			return _screenPosition;
-		}
+		const Vector2 GetWorldPosition() const { return _worldPosition; }
+		virtual const Vector2 GetScreenPosition() const { return _screenPosition; }
 		const Rectangle GetCollisionRec() const;
 		const bool IsMoving() const;
+		const bool IsAlive() const { return _isAlive; }
+		void SetAlive(bool alive) { _isAlive = alive; }
 
 	protected:
 		Vector2 _screenPosition{};
@@ -48,11 +44,11 @@ namespace ClassyClash
 
 		float _scale{8.0f};
 
-		bool log = false;
+		bool _isAlive{true};
 
 	protected:
 		virtual const Vector2 GetVelocity() = 0;
-		void Animate(const float* deltaTime);
+		void Animate(const float deltaTime);
 
 	private:
 		Vector2 _velocity{};
